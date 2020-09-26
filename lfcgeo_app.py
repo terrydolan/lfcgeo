@@ -24,7 +24,7 @@ st.beta_set_page_config(
 
 # define defaults
 DEBUG = True
-SQUAD_PLAYERS_GEO_CSV_FILE = 'data\dflfc_squad_players_geo_Sep2020.csv'
+SQUAD_PLAYERS_GEO_CSV_FILE = 'data/dflfc_squad_players_geo_Sep2020.csv'
 ANFIELD_LATITUTE = 53.4308358
 ANFIELD_LONGITUDE = -2.9609095414165294
 DEFAULT_SEASON = '1962-1963' # Shankly's first season back in the top flight, and somewhere in the middle!

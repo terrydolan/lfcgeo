@@ -1,4 +1,4 @@
 pandas==0.25.1
 streamlit==0.66.0
 pydeck==0.4.1
-ast
+#ast

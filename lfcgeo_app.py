@@ -34,8 +34,8 @@ ZOOM_DEFAULT = 4
 GREEN = [0, 255, 0] # RGB
 RED = [255, 0, 0] # RGB
 WHITE = [255, 255, 255] # RGB
-PICKING_RADIUS = 10
-LINE_WIDTH=5
+PICKING_RADIUS = 14
+LINE_WIDTH=7
 MAP_STYLE = 'mapbox://styles/mapbox/dark-v10' # ref: https://docs.mapbox.com/api/maps
 
 # define helper functions
@@ -96,7 +96,7 @@ view_state = pdk.ViewState(latitude=ANFIELD_LATITUTE, longitude=ANFIELD_LONGITUD
 
 # Render
 r = pdk.Deck(layers=[layer], initial_view_state=view_state, map_style=MAP_STYLE,
-             tooltip={"text": "{Source_name} to {Target_name} ({Anfield_dist_mi_rnd} miles)"})
+             tooltip={"text": "{Source_name} \nto {Target_name} ({Anfield_dist_mi_rnd} miles)"})
 st.pydeck_chart(r)
 st.markdown("_Data source: [lfchistory.net](https://www.lfchistory.net/)_")
 

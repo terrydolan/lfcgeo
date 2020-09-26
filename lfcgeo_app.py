@@ -35,7 +35,7 @@ GREEN = [0, 255, 0] # RGB
 RED = [255, 0, 0] # RGB
 WHITE = [255, 255, 255] # RGB
 PICKING_RADIUS = 10
-LINE_WIDTH=3
+LINE_WIDTH=5
 MAP_STYLE = 'mapbox://styles/mapbox/dark-v10' # ref: https://docs.mapbox.com/api/maps
 
 # define helper functions

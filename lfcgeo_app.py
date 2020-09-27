@@ -16,14 +16,25 @@ import pydeck as pdk
 import pandas as pd
 import ast
 
+__author__ = "Terry Dolan"
+__copyright__ = "Terry Dolan"
+__license__ = "MIT"
+__email__ = "terrydolan1892@gmail.com"
+__status__ = "Beta"
+__version__ = "1.0.0"
+__updated__ = "September 2020"
+
 st.beta_set_page_config(
     page_title="lfcgeo",
     page_icon="redglider.ico",
     layout="wide",
-    initial_sidebar_state="auto")
+    initial_sidebar_state="collapsed")
 
 # define defaults
-DEBUG = True
+MODE_RUN = 'Run the app'
+MODE_ABOUT = 'About the app'
+ABOUT_MD_FILE = 'README.md'
+SHOW_DATAFRAME = True
 SQUAD_PLAYERS_GEO_CSV_FILE = 'data/dflfc_squad_players_geo_Sep2020.csv'
 ANFIELD_LATITUTE = 53.4308358
 ANFIELD_LONGITUDE = -2.9609095414165294
@@ -44,67 +55,84 @@ def read_lfcgeo_df():
     df = pd.read_csv(SQUAD_PLAYERS_GEO_CSV_FILE, parse_dates=['Birthdate'])
     return(df)
 
-# introduce the web app
-st.title("lfcgeo")
-st.header("Map each LFC squad player's shortest journey from their birthplace to Anfield for a selected season")
+def read_about_md(filename):
+    """Read the about markdown file and return as a string."""
+    with open(filename, "r") as f:
+        about_md = f.read()
+    return about_md
 
-# read all squad players' data, with geo and tooltip
-dflfc_squad_player_geo = read_lfcgeo_df()
-seasons = list(dflfc_squad_player_geo.Season.unique())
+# define sidebar to select mode (default mode is to run the app)
+select_mode = st.sidebar.radio('Select mode:', (MODE_RUN, MODE_ABOUT), index=0)
 
-# select season using slider
-selected_season = st.select_slider(label='Select a season to map using the slider:',
-                                   options=seasons,
-                                   value=DEFAULT_SEASON)
-st.write(f"{selected_season} - the map is interactive, hover over a line to see player details; zoom in and out")
+st.sidebar.markdown(f"*lfcgeo, version {__version__}*")
 
-### show quick zoom radio buttons
-### not used as issues with streamlit positioning of Anfield when moving to max zoom"
-##zoom_choice = st.radio('The map is interactive, hover over a line to see player details; you can zoom in and out',
-##                       ('Zoom in to Anfield view', 'Zoom out to world view', 'Zoom default'), index=2)
-##if zoom_choice == 'Zoom in to Anfield view':
-##    zoom_level = ZOOM_MAX
-##elif zoom_choice == 'Zoom out to world view':
-##    zoom_level = ZOOM_MIN
-##else:
-##    zoom_level = ZOOM_DEFAULT
 
-# filter selected season in dataframe and prepare dataframe for mapping
-FILTER = (dflfc_squad_player_geo.Season == selected_season)
-df_plot = dflfc_squad_player_geo[FILTER].dropna().reset_index(drop=True)
-df_plot['Source_coords_xfm'] = df_plot.Source_coords_xfm.apply(lambda s: tuple(ast.literal_eval(s)))
-df_plot['Target_coords'] = df_plot.Target_coords.apply(lambda s: tuple(ast.literal_eval(s)))
-df_plot['Anfield_dist_mi_rnd'] = round(df_plot.Anfield_dist_mi, 1)
+if select_mode == MODE_RUN:
+   
+    # introduce the web app
+    st.title("lfcgeo")
+    st.header("Map each LFC squad player's shortest journey from their birthplace to Anfield")
 
-# map using great circle layer
-layer = pdk.Layer(
-    "GreatCircleLayer",
-    df_plot,
-    pickable=True,
-    get_source_position='Source_coords_xfm', # column in dataframe with source (birthplace) coordinates (x, y)
-    get_target_position='Target_coords', # column in dataframe with target (Anfield) coordinates (x, y)
-    get_source_color=GREEN,
-    get_target_color=RED,
-    auto_highlight=True,
-    get_width=LINE_WIDTH,
-    picking_radius=PICKING_RADIUS,
-    highlightColor=WHITE
-)
+    # read all squad players' data, with geo and tooltip
+    dflfc_squad_player_geo = read_lfcgeo_df()
+    seasons = list(dflfc_squad_player_geo.Season.unique())
 
-# Set the viewport location
-view_state = pdk.ViewState(latitude=ANFIELD_LATITUTE, longitude=ANFIELD_LONGITUDE, zoom=ZOOM_DEFAULT, bearing=0, pitch=0)
+    # select season using slider
+    selected_season = st.select_slider(label='Select a season to map using the slider:',
+                                       options=seasons,
+                                       value=DEFAULT_SEASON)
+    st.write(f"{selected_season} - the map is interactive, hover over a line to see player details; zoom in and out")
 
-# Render
-r = pdk.Deck(layers=[layer], initial_view_state=view_state, map_style=MAP_STYLE,
-             tooltip={"text": "{Source_name} \nto {Target_name} ({Anfield_dist_mi_rnd} miles)"})
-st.pydeck_chart(r)
-st.markdown("_Data source: [lfchistory.net](https://www.lfchistory.net/)_")
+    ### show quick zoom radio buttons
+    ### not used as issues with streamlit positioning of Anfield when moving to max zoom"
+    ##zoom_choice = st.radio('The map is interactive, hover over a line to see player details; you can zoom in and out',
+    ##                       ('Zoom in to Anfield view', 'Zoom out to world view', 'Zoom default'), index=2)
+    ##if zoom_choice == 'Zoom in to Anfield view':
+    ##    zoom_level = ZOOM_MAX
+    ##elif zoom_choice == 'Zoom out to world view':
+    ##    zoom_level = ZOOM_MIN
+    ##else:
+    ##    zoom_level = ZOOM_DEFAULT
 
-# display dataframe if debug
-if DEBUG:
-    choice = st.checkbox('Show data')
-    if choice:
-        st.write(df_plot[['Season', 'Player', 'Birthplace_upd', 'Source_coords_xfm']]\
-                 .rename(columns={'Birthplace_upd': 'Birthplace', 'Source_coords_xfm': 'Geo-location'}))
+    # filter selected season in dataframe and prepare dataframe for mapping
+    FILTER = (dflfc_squad_player_geo.Season == selected_season)
+    df_plot = dflfc_squad_player_geo[FILTER].dropna().reset_index(drop=True)
+    df_plot['Source_coords_xfm'] = df_plot.Source_coords_xfm.apply(lambda s: tuple(ast.literal_eval(s)))
+    df_plot['Target_coords'] = df_plot.Target_coords.apply(lambda s: tuple(ast.literal_eval(s)))
+    df_plot['Anfield_dist_mi_rnd'] = round(df_plot.Anfield_dist_mi, 1)
+
+    # map using great circle layer
+    layer = pdk.Layer(
+        "GreatCircleLayer",
+        df_plot,
+        pickable=True,
+        get_source_position='Source_coords_xfm', # column in dataframe with source (birthplace) coordinates (x, y)
+        get_target_position='Target_coords', # column in dataframe with target (Anfield) coordinates (x, y)
+        get_source_color=GREEN,
+        get_target_color=RED,
+        auto_highlight=True,
+        get_width=LINE_WIDTH,
+        picking_radius=PICKING_RADIUS,
+        highlightColor=WHITE
+    )
+
+    # Set the viewport location
+    view_state = pdk.ViewState(latitude=ANFIELD_LATITUTE, longitude=ANFIELD_LONGITUDE, zoom=ZOOM_DEFAULT, bearing=0, pitch=0)
+
+    # Render
+    r = pdk.Deck(layers=[layer], initial_view_state=view_state, map_style=MAP_STYLE,
+                 tooltip={"text": "{Source_name} \nto {Target_name} ({Anfield_dist_mi_rnd} miles)"})
+    st.pydeck_chart(r)
+    st.markdown("_Data source: [lfchistory.net](https://www.lfchistory.net/)_")
+
+    # display dataframe
+    if SHOW_DATAFRAME:
+        show_data = st.checkbox('Show data for the selected season')
+        if show_data:
+            st.write(df_plot[['Season', 'Player', 'Birthplace_upd', 'Source_coords_xfm']]\
+                     .rename(columns={'Birthplace_upd': 'Birthplace', 'Source_coords_xfm': 'Geo-location'}))
+    
+else:
+    st.markdown(read_about_md(ABOUT_MD_FILE))
 
     

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
-"""lfcgeo App. 
+"""
+lfcgeo App
 
 A python streamlit web app that maps each LFC squad player's shortest journey from their place of birth to Anfield for a selected season
 
@@ -8,9 +9,12 @@ To run:
     $streamlit lfcgeo_app.py
 
 History
-v1.0.0 - Sep 2020, Initial version with python3, pydeck, pandas and streamlit
+v1.0.0 - Sep 2020, Initial version with python, pandas, ast, pydeck and streamlit
 """
 
+import logging
+import logging.config
+import lfcgeo_log_config # dict with logging config
 import streamlit as st
 import pydeck as pdk
 import pandas as pd
@@ -24,11 +28,9 @@ __status__ = "Beta"
 __version__ = "1.0.0"
 __updated__ = "September 2020"
 
-st.beta_set_page_config(
-    page_title="lfcgeo",
-    page_icon="redglider.ico",
-    layout="wide",
-    initial_sidebar_state="collapsed")
+# set up logging
+logging.config.dictConfig(lfcgeo_log_config.dictLogConfig)
+logger = logging.getLogger('lfcgeo')
 
 # define defaults
 MODE_RUN = 'Run the app'
@@ -52,14 +54,23 @@ MAP_STYLE = 'mapbox://styles/mapbox/dark-v10' # ref: https://docs.mapbox.com/api
 # define helper functions
 @st.cache
 def read_lfcgeo_df():
+    """Read the csv with squad players geo and return as a dataframe."""
     df = pd.read_csv(SQUAD_PLAYERS_GEO_CSV_FILE, parse_dates=['Birthdate'])
     return(df)
 
+@st.cache
 def read_about_md(filename):
     """Read the about markdown file and return as a string."""
     with open(filename, "r") as f:
         about_md = f.read()
     return about_md
+
+# define page config
+st.beta_set_page_config(
+    page_title="lfcgeo",
+    page_icon="redglider.ico",
+    layout="wide",
+    initial_sidebar_state="collapsed")
 
 # define sidebar to select mode (default mode is to run the app)
 select_mode = st.sidebar.radio('Select mode:', (MODE_RUN, MODE_ABOUT), index=0)
@@ -83,16 +94,17 @@ if select_mode == MODE_RUN:
                                        value=DEFAULT_SEASON)
     st.write(f"{selected_season} - the map is interactive, hover over a line to see player details; zoom in and out")
 
-    ### show quick zoom radio buttons
-    ### not used as issues with streamlit positioning of Anfield when moving to max zoom"
-    ##zoom_choice = st.radio('The map is interactive, hover over a line to see player details; you can zoom in and out',
-    ##                       ('Zoom in to Anfield view', 'Zoom out to world view', 'Zoom default'), index=2)
-    ##if zoom_choice == 'Zoom in to Anfield view':
-    ##    zoom_level = ZOOM_MAX
-    ##elif zoom_choice == 'Zoom out to world view':
-    ##    zoom_level = ZOOM_MIN
-    ##else:
-    ##    zoom_level = ZOOM_DEFAULT
+##    # show quick zoom radio buttons
+##    # not used as issues with streamlit positioning of Anfield when moving to max zoom"
+##    # zoom fixed at default for now
+##    zoom_choice = st.sidebar.radio('Select a pre-set zoom:',
+##                                   ('Zoom in to Anfield view', 'Zoom out to world view', 'Zoom default view'), index=2)
+##    if zoom_choice == 'Zoom in to Anfield view':
+##        zoom_level = ZOOM_MAX
+##    elif zoom_choice == 'Zoom out to world view':
+##        zoom_level = ZOOM_MIN
+##    else:
+##        zoom_level = ZOOM_DEFAULT
 
     # filter selected season in dataframe and prepare dataframe for mapping
     FILTER = (dflfc_squad_player_geo.Season == selected_season)
@@ -120,6 +132,7 @@ if select_mode == MODE_RUN:
     view_state = pdk.ViewState(latitude=ANFIELD_LATITUTE, longitude=ANFIELD_LONGITUDE, zoom=ZOOM_DEFAULT, bearing=0, pitch=0)
 
     # Render
+    logger.info(f"Render the lfcgeo map for season: {selected_season}")
     r = pdk.Deck(layers=[layer], initial_view_state=view_state, map_style=MAP_STYLE,
                  tooltip={"text": "{Source_name} \nto {Target_name} ({Anfield_dist_mi_rnd} miles)"})
     st.pydeck_chart(r)
@@ -127,12 +140,14 @@ if select_mode == MODE_RUN:
 
     # display dataframe
     if SHOW_DATAFRAME:
-        show_data = st.checkbox('Show data for the selected season')
+        show_data = st.checkbox(f"Show data for the {selected_season} season")
         if show_data:
+            logger.info(f"Show the dataframe for season: {selected_season}")
             st.write(df_plot[['Season', 'Player', 'Birthplace_upd', 'Source_coords_xfm']]\
                      .rename(columns={'Birthplace_upd': 'Birthplace', 'Source_coords_xfm': 'Geo-location'}))
     
 else:
+    logger.info('Show info about lfcgeo')
     st.markdown(read_about_md(ABOUT_MD_FILE))
 
     

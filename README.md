@@ -22,7 +22,7 @@ The data was cleansed, enriched and mapped using jupyter, python, pandas, geopy 
 If more than one player in a squad in a given season share the same geo-location origin then the location is transformed, placing each transformed point around a circle with radius 0.5 km from the origin. This ensures that each player's line is distict on the map.
 
 ## App construction and deployment
-The app uses python, pandas, ast, pydeck (with mapbox) and streamlit and is deployed on the heroku cloud application platform. 
+The app uses python, pandas, ast, pydeck (with mapbox) and streamlit and is deployed on the heroku cloud application platform.
 
 ## App source code
 See lfcgeo_app.py on the [lfcgeo repository on github](https://github.com/terrydolan/lfcgeo).
@@ -38,4 +38,4 @@ Your feedback and improvement suggestions are welcome.
 
   
 Terry Dolan, @lfcsorted  
-blog: www.lfcsorted.com
+blog: [www.lfcsorted.com](http://www.lfcsorted.com)

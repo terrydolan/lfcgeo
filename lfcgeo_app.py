@@ -34,8 +34,8 @@ ZOOM_DEFAULT = 4
 GREEN = [0, 255, 0] # RGB
 RED = [255, 0, 0] # RGB
 WHITE = [255, 255, 255] # RGB
-PICKING_RADIUS = 14
 LINE_WIDTH=7
+PICKING_RADIUS = 5*LINE_WIDTH
 MAP_STYLE = 'mapbox://styles/mapbox/dark-v10' # ref: https://docs.mapbox.com/api/maps
 
 # define helper functions
@@ -46,7 +46,7 @@ def read_lfcgeo_df():
 
 # introduce the web app
 st.title("lfcgeo")
-st.header("Map each LFC squad player's shortest journey from their place of birth to Anfield for a selected season")
+st.header("Map each LFC squad player's shortest journey from their birthplace to Anfield for a selected season")
 
 # read all squad players' data, with geo and tooltip
 dflfc_squad_player_geo = read_lfcgeo_df()

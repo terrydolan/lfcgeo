@@ -3,7 +3,7 @@ lfcgeo is a web app that maps each LFC squad player's shortest journey from thei
 
 The app illustrates the changing nature of top flight football in England. You can see that most of the players from Liverpool's first squad in 1892-1893 came from Scotland. Indeed that team was known as the '*team of macs*'. Liverpool's 2020-2021 squad is truly global, with players from 19 different countries who have travelled over 42,000 miles to reach Anfield.
 
-The app has knowledge of every player that has been included in an LFC squad in every season; that is 800+ Liverpool players over 100+ seasons.
+The app has knowledge of every player that has been included in an LFC squad in every season; that is 100+ seasons and 800+ Liverpool players.
 
 ## Try the app
 The lfcgeo app is deployed at [lfcgeo.herokuapp.com](https://lfcgeo.herokuapp.com). It is also available from [lfcgeo.lfcsorted.com](http://lfcgeo.lfcsorted.com).

@@ -20,6 +20,9 @@ tmp*.*
 *.sav*
 Thumbs.db
 
+# prototype app
+lfcgeo_app_proto.py
+
 # jupyter notebook and checkpoint files
 .ipynb_checkpoints/
 

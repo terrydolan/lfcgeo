@@ -52,6 +52,7 @@ WHITE = [255, 255, 255] # RGB
 LINE_WIDTH=7
 PICKING_RADIUS = 5*LINE_WIDTH
 MAP_STYLE = 'mapbox://styles/mapbox/dark-v10' # ref: https://docs.mapbox.com/api/maps
+ANI_GIF = "LFC PTWR 1892-1893 to 2020-2021.gif"
 ANI_MP4 = "LFC PTWR 1892-1893 to 2020-2021.mp4"
 
 # set initial values
@@ -78,7 +79,7 @@ st.beta_set_page_config(
     page_title="lfcgeo proto",
     page_icon="redglider.ico",
     layout="wide",
-    initial_sidebar_state="expanded") #collapsed
+    initial_sidebar_state="auto") #collapsed expanded
 
 # define sidebar to select mode (default mode is to run the app)
 select_mode = st.sidebar.radio('Select mode:', (MODE_RUN, MODE_ABOUT, MODE_ANI), index=0)
@@ -148,7 +149,8 @@ elif select_mode == MODE_ABOUT:
 
 elif select_mode == MODE_ANI:
     logger.info('Show PTWR animation')
-    st.video(ANI_MP4)
+    #st.video(ANI_MP4)
+    st.image(ANI_GIF)
     st.markdown("_Data source: [lfchistory.net](https://www.lfchistory.net/)_")
 
     

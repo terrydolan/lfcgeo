@@ -149,9 +149,8 @@ elif select_mode == MODE_ABOUT:
 
 elif select_mode == MODE_ANI:
     logger.info('Show PTWR animation')
-    video_file = open(ANI_MP4, 'rb')
-    video_bytes = video_file.read()
-    st.video(video_bytes)
+    #st.video(ANI_MP4)
+    st.image(ANI_GIF)
     st.markdown("_Data source: [lfchistory.net](https://www.lfchistory.net/)_")
 
     

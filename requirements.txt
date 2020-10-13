@@ -1,4 +1,4 @@
 pandas==0.25.1
 #streamlit==0.68.0
-streamlit-nighltly==0.68.2-20201012 # temporarily use streamlit nightly to fix st.video() issue
+streamlit-nighltly # temporarily use streamlit-nightly to fix st.video() issue with version 0.68.2.dev20201012
 pydeck==0.4.1

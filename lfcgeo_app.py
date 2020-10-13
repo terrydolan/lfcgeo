@@ -53,7 +53,7 @@ LINE_WIDTH=7
 PICKING_RADIUS = 5*LINE_WIDTH
 MAP_STYLE = 'mapbox://styles/mapbox/dark-v10' # ref: https://docs.mapbox.com/api/maps
 ANI_GIF = "LFC PTWR 1892-1893 to 2020-2021.gif"
-ANI_MP4 = "LFC PTWR 1892-1893 to 2020-2021 v2.mp4"
+ANI_MP4 = "LFC PTWR 1892-1893 to 2020-2021.mp4"
 
 # set initial values
 view_zoom_level = ZOOM_DEFAULT
@@ -149,8 +149,8 @@ elif select_mode == MODE_ABOUT:
 
 elif select_mode == MODE_ANI:
     logger.info('Show PTWR animation')
-    #st.video(ANI_MP4)
-    st.image(ANI_GIF)
+    st.video(ANI_MP4)
+    #st.image(ANI_GIF)
     st.markdown("_Data source: [lfchistory.net](https://www.lfchistory.net/)_")
 
     

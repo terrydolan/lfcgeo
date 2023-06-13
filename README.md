@@ -6,7 +6,7 @@ The app illustrates the changing nature of top flight football in England. You c
 The app has knowledge of every player that has been included in an LFC squad; that is 100+ seasons and 800+ players.
 
 ## Try the app
-The lfcgeo app is deployed at [lfcgeo.herokuapp.com](https://lfcgeo.herokuapp.com). It is also available from [lfcgeo.lfcsorted.com](http://lfcgeo.lfcsorted.com).
+The lfcgeo app is deployed at [https://share.streamlit.io/terrydolan/lfcgeo/main/lfcgeo_app.py](https://share.streamlit.io/terrydolan/lfcgeo/main/lfcgeo_app.py).
 
 ## App user interface
 The app maps each LFC season squad player's journey from their birthplace to Anfield using a 'great-circle' line of shortest distance. You can select the season to map using a slider. Any LFC season can be selected, from 1892-1893 to the current season. The default selection is 1900-01, Liverpool's first title winning season.
@@ -25,7 +25,7 @@ The data was cleansed, enriched and mapped using jupyter, python, pandas, geopy 
 If more than one player in a squad in a given season share the same geo-location origin then the location is transformed, placing each transformed point around a circle with radius 0.5 km from the origin. This ensures that each player's line is distict on the map, though you may need to zoom in!
 
 ## App components and deployment
-The app uses python, pandas, ast, logging, pydeck (with mapbox) and streamlit and is deployed on the heroku cloud application platform.
+The app uses python, pandas, ast, io, logging, pydeck (with mapbox), cryptography and streamlit and is deployed on the streamlit community cloud application platform.
 
 ## App source code
 See lfcgeo_app.py on the [lfcgeo repository on github](https://github.com/terrydolan/lfcgeo).
@@ -40,5 +40,4 @@ Thanks to the providers of the tools and data.
 Your feedback and improvement suggestions are welcome.
 
   
-Terry Dolan, @lfcsorted  
-blog: [www.lfcsorted.com](http://www.lfcsorted.com)
+Terry Dolan, https://linktr.ee/terrydolan

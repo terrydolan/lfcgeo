@@ -1,9 +1,11 @@
 # non-project files to ignore
 *.bat
 *.csv
+*.dec
 *.html
 *.ipynb
 *.jpg
+*.key
 *.log
 *.p
 *.pdf
@@ -14,12 +16,15 @@
 *.tmp
 *.txt
 *.xlsx
+test*.*
 tmp*.*
 *.old*
 *~*
 *.sav*
 Thumbs.db
 
+# streamlit private
+.streamlit
 # prototype app
 lfcgeo_app_proto.py
 
@@ -28,6 +33,5 @@ lfcgeo_app_proto.py
 
 # archive and tmp folder files
 archive/
-data*/
 tmp*/
 snapshot*/

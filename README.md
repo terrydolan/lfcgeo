@@ -6,7 +6,7 @@ The app illustrates the changing nature of top flight football in England. You c
 The app has knowledge of every player that has been included in an LFC squad; that is 100+ seasons and 800+ players.
 
 ## Try the app
-The lfcgeo app is deployed at [https://share.streamlit.io/terrydolan/lfcgeo/main/lfcgeo_app.py](https://share.streamlit.io/terrydolan/lfcgeo/main/lfcgeo_app.py).
+The lfcgeo app is deployed at [https://share.streamlit.io/terrydolan/lfcgeo/master/lfcgeo_app.py](https://share.streamlit.io/terrydolan/lfcgeo/master/lfcgeo_app.py).
 
 ## App user interface
 The app maps each LFC season squad player's journey from their birthplace to Anfield using a 'great-circle' line of shortest distance. You can select the season to map using a slider. Any LFC season can be selected, from 1892-1893 to the current season. The default selection is 1900-01, Liverpool's first title winning season.
